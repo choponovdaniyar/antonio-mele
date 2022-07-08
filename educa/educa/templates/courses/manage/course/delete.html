@@ -1,0 +1,16 @@
+{% extends 'bbase.html' %}
+
+{% block title %}
+    Delete course
+{% endblock %}
+
+{% block content %}
+    <h1>Delete course "{{ object.title }}"</h1>
+
+    <div class="module">
+        <form action="" method="post">
+            <p>Are you sure you want to delete "{{ object }}"? </p>
+            <input type="submit" class="button" value="Confirm">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    Share a post
+{% endblock%}
+
+{% block content %}
+    {% if sent %}
+        <div class="message">
+            <h1 class="message__title">Письмо успешно отправлено!</h1>
+            <p class="message__description">Пост "{{ post.title }}" был успешно отправлен на casd{{ form.cleaned_data.to }}.</p>
+        </div>
+    {% else %}
+        <div class="form">
+            <h1 class="h1">Поделиться по почте</h1>
+            <h3 class="h3">"{{ post.title }}"</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-row">
+                    {{ field.label_tag }} {{ field }}
+                </div>
+                {% endfor %}
+                <div class="form-row justify-content-end mt-3">
+                    <input type="submit" value="Отправить" class="btn btn-primary">
+                </div>
+            </form>
+        </div>    
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+
+{% block title %}
+    Мой блог
+{% endblock %}
+
+{% block content %}
+  <div class="cards mb-4">
+    <style>
+      .my-cards{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
+      }
+
+      @media screen and (max-width:992px) {
+        .my-cards{
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+      @media screen and (max-width:768px) {
+        .my-cards{
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    </style>
+    <h2 class="h2">Все посты</h2>
+    <div class="my-cards mt-3">
+
+      {% for post in posts %}
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Теги:
+                {% for tag in post.tags.all %}
+                    <a class="card-link" href="{% url 'blog:post_list_by_tag' tag.slug %}">
+                        {{ tag.name }}
+                    </a>
+                        {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </h6>
+              <p class="card-text">{{ post.body|markdown|truncatewords_html:30 }}</p>
+              <a class="card-link" href="{{ post.get_absolute_url }}">Подробнее..</a>
+              <p class="card-text">
+                <span>
+                  Опубликован: <b><span clas="post__date">{{ post.publish }}</span></b>
+                </span>
+                <span>
+                  Автор: <b><span clas="post__author">{{ post.author }}</span></b>
+                </span>
+              </p><p>
+                
+              </p>
+              <p></p>
+            </div>
+        </div>
+      {% endfor %}
+    </div>    
+  </div>
+  {% include 'pagination.html' with page=posts %}
+{% endblock %}
+

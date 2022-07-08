@@ -1,0 +1,7 @@
+Django==4.0.4
+Pillow==9.1.1
+Celery==5.2.7 
+redis==4.3.4
+braintree==4.15.2 
+django-weasyprint==2.1.0
+xhtml2pdf==0.2.8 

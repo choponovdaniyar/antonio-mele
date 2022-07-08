@@ -1,0 +1,10 @@
+<div>
+    {% for post in latest_posts %}
+        <a href="{{ post.get_absolute_url }}" class="last-post card mb-2">
+            <div class="last-post__body card-body p-2">
+                {{ post.title }}
+            </div>
+        </a>
+        <!-- <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li> -->
+    {% endfor %}
+</div>

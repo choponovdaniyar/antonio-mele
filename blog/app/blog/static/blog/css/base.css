@@ -1,0 +1,18 @@
+body{
+    min-height: 100vh;
+}
+
+header{
+    position: fixed;
+    width: 100vw;
+
+    top: 0;
+    z-index: 1;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    
+    width: 100vw;
+}

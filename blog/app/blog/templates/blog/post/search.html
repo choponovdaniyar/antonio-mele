@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block content %}
+    <div class="h6">
+        Поиск производится по тексту и заголовку всех постов
+    </div>
+    {% if query %}
+        <div class="search mb-5">
+            <h1>
+                Поиск
+            </h1>
+            <h5 class="h5">
+                "{{ query }}"
+            </h5>
+            {% with results.count as total_results %}
+                {% if total_results %}
+                    <div class="alert alert-success mt-4" role="alert">
+                        Найден{{ total_results|pluralize:'о' }} {{ total_results }} результат{{ total_results|pluralize:'ов' }}.
+                    </div>
+                {% else %}  
+                    <div class="alert alert-danger mt-4" role="alert">
+                        По вашему запросу нет результатов.
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+        </div>
+        <div class="result mb-5">
+            {% for post in results %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title mb-0">
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        </h4>
+                        <p><small class="text-muted">{{ post.author }}</small></p>
+                        <p class="card-text">{{ post.body|safe|truncatewords:15 }} </p>
+                        <p class="card-text">
+                            
+                            <small class="text-muted">{{ post.publish}}</small>
+                        </p>
+                     </div>
+                </div>
+            {% endfor %}
+        </div>
+            <p class="row justify-content-end">
+                <a href="{% url 'blog:post_search' %}" class="btn btn-primary">Искать снова</a>
+            </p>
+    {% else %}
+        <h1 class="h1">Поиск</h1>
+        <form action="." method="get">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-row">
+                {{ field }}
+            </div>
+            {% endfor %}
+            <div class="form-row justify-content-end mt-3">
+                <input type="submit" value="Найти" class="btn btn-primary">
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

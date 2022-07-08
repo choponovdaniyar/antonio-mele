@@ -1,0 +1,5 @@
+django==4.0.4
+environs==9.5.0
+django-ckeditor==6.4.1
+psycopg2==2.9.3
+Markdown==3.3.7

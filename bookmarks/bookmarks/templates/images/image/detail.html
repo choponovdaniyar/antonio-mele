@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ image.title }}
+{% endblock %}
+
+
+{% block content %}
+    <h1>{{ image.title }}</h1>
+    {% load thumbnail %}
+    {% thumbnail image.image '300' as im %}
+        <a href="{{ image.image.url }}">
+            <img src="{{ im.url }}" class="image-detail">
+        </a>
+    {% endthumbnail %}
+        <!-- <img src="{{ image.image.url }}" class="image-detail"> -->
+    {% with total_likes=image.users_like.count %}
+        <div class="image-info">
+            <div>
+                <span class="count">
+                    <span class="total">{{ total_likes}}</span> like{{ total_likes|pluralize }}
+                </span>
+                <span class="count">
+                    {{ total_views }} view{{ total_views|pluralize }}
+                </span>
+                <a href="" data-id="{{ image.id }}" data-action="{% if request.user not in image.users_like.all %}un{% endif %}like" 
+                    class="like button">{% if request.user in image.users_like.all %}un{% endif%}like</a>
+            </div>
+            {{ image.description|linebreaks }}
+        </div>
+        <div class="image-likes">
+            {% for user in image.users_like.all %}
+                <div data-id="{{ image.id }}">        
+                    <img src="{{ user.profile.photo.url}}" alt="">
+                    <p>{{ user.first_name }}</p>
+                </div>
+            {% empty %}
+                Nobody likes this image yet.
+            {% endfor %}
+        </div>
+    {% endwith %}
+{% endblock %}
+
+
+{% block domready %}
+    {% include 'images/image/detail.js' %}
+{% endblock %}

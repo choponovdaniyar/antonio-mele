@@ -1,0 +1,83 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="post">
+        <div class="post">
+            <div class="post__header">
+                <h1 class="post__title display-5 font-weight-normal post-title w-70">
+                    {{ post.title }}
+                </h1>    
+                <div class="post__tags-wrapper text-right"> 
+                    <p class="post__tags">
+                        <span >Теги: </span>
+                        {% for tag in post.tags.all %}
+                            <a class="post__tag" href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}  
+                        {% endfor %}    
+                    </p>
+                    <p>
+                        Опубликован: <span class="post-publish font-weight-bold">{{ post.publish }}</span> <br>
+                        Автор: <span class="post-author font-weight-bold">{{ post.author }}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="post__body text-justify">
+                {{ post.body|safe }}    
+            </div>
+            <p>
+                <a href="{% url 'blog:post_share' post.id %}" class="post__share">Поделиться постом</a>
+            </p>
+        </div>
+
+        <div class="add-comment mt-5">
+            {% if new_comment%}
+            <div class="add-comment__title alert alert-success" role="alert">
+                Ваш комментарий был добавлен.
+            </div>
+            {% else %}
+                <h2 class="add-comment__title h2 w-70">Добавить новый комментарий</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    {% for field in comment_form %}
+                    <div class="form-row">
+                        {{ field.label_tag }} {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div class="add-comment__form-button form-row justify-content-end mt-3">
+                        <input type="submit" value="Добавить" class="form-button btn btn-primary">
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+
+        <div class="comments mt-5">
+            {% with comments.count as total_comments %}
+                {% if total_comments %}
+                    <h3 class="comments__title text-right">
+                        <span class="total-comments">{{ total_comments }}</span> комментериев
+                    </h3>
+                {% endif %}
+            {% endwith %}
+            {% for comment in comments %}
+                <div class="comment card mb-3">
+                    <div class="card-body">
+                    <h5 class="comment__email card-title">{{ comment.email }}</h5>
+                    <p class="comment__text card-text">{{ comment.body|safe}}</p>
+                    <p class="comment__date card-text"><small class="text-muted">{{ comment.created }}</small></p>
+                    </div>
+                </div>
+
+            {% empty %}
+                <div class="alert alert-primary" role="alert">
+                    Пока нет комментариев.
+                </div>
+            {% endfor %}    
+        </div>
+        
+    </div> 
+{% endblock %}

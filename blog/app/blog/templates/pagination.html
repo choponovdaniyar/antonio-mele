@@ -1,0 +1,21 @@
+<nav aria-label="Page navigation example mt-4">
+    <ul class="pagination pagination-lg justify-content-center">
+    {% if page.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page.previous_page_number }}" href="#" tabindex="-1">
+                {{ page.previous_page_number }}
+            </a>
+        </li>
+    {% endif %}
+        <li class="page-item disabled"><a class="page-link" href="">
+            {{ page.number }}
+        </a></li>
+    {% if page.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">
+            {{ page.next_page_number }}
+        </a></li>
+    {% endif %}
+    </ul>
+</nav>
+
+</div>
