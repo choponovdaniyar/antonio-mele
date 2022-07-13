@@ -51,9 +51,10 @@ def admin_order_detail(request, order_id):
             'order': order
         })
 
+
 @staff_member_required
 def admin_order_pdf(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order, id=order_id)   
     html = render_to_string('orders/order/pdf.html', {'order': order})
     pdf, result = html_to_pdf(html)
     if not pdf.err:

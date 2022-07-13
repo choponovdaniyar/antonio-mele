@@ -1,0 +1,13 @@
+restart
+.Xauthority
+.sudo_as_admin_successful
+.python_history
+.profile
+.bashrc
+.bash_logout
+.bash_history
+.local
+.ssh
+/venv
+.gitconfig
+.cache
